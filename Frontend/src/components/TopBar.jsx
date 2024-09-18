@@ -22,10 +22,10 @@ const TopBar = (props) => {
             <GiteIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            neighbourly
+            conectify
           </Typography>
 
-          {/* conditional rendering of burger menu */}
+          
           {props.showBurger && (
             <IconButton
               size="large"
