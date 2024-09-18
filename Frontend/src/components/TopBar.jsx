@@ -22,10 +22,9 @@ const TopBar = (props) => {
             <GiteIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            conectify
+            connectify
           </Typography>
 
-          
           {props.showBurger && (
             <IconButton
               size="large"

@@ -1,4 +1,3 @@
-//Test model
 
 const mongoose = require("mongoose");
 const ListingsSchema = new mongoose.Schema(
