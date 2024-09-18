@@ -1,7 +1,7 @@
 import React from "react";
 import TopBar from "../components/TopBar";
 
-const SignIn = () => {
+const Registration = () => {
   return (
     <>
       <TopBar></TopBar>
@@ -9,4 +9,4 @@ const SignIn = () => {
   );
 };
 
-export default SignIn;
+export default Registration;
