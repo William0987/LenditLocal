@@ -1,6 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 
-const ListingModel = require("../models/listings");
+const ListingModel = require("../models/Listings");
 
 const seedListings = async (req, res) => {
   try {
