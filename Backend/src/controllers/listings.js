@@ -9,11 +9,10 @@ const seedListings = async (req, res) => {
     await ListingModel.create([
       {
         _id: "64d0f3f75676c304033d8c89",
-        listing_id: "1cabb62c-5e73-4738-b2fd-3da98aa5c08f",
         title: "My beloved bike",
         description: `I’m too busy with my coding bootcamp to ride it. Feel free to borrow it on weekends`,
         type: "loan",
-        owner_id: "Owner1",
+        owner_id: "64df45f6d43f6b36609ea557",
         date_available_from: `${new Date()}`,
         date_available_to: "2022-09-30",
         image_url:
@@ -21,11 +20,10 @@ const seedListings = async (req, res) => {
       },
       {
         _id: "64d0f3f75676c304033d8c90",
-        listing_id: "c66bb8e0-ef62-4f8a-a1b8-9b3b3cfb906d",
         title: "Onions",
         description: `Onions are a rich source of fiber and prebiotics, which are necessary for optimal gut health. I bought way too many onions. Giving away for free`,
         type: "free",
-        owner_id: "Owner1",
+        owner_id: "64df45f6d43f6b36609ea557",
         date_available_from: `${new Date()}`,
         date_available_to: "2022-08-30",
         image_url:
@@ -51,11 +49,9 @@ const getAllListings = async (req, res) => {
 
 const getListingById = async (req, res) => {
   try {
-    const listing = await ListingModel.find({
-      listing_id: req.params.listing_id,
-    });
-    console.log(listing);
-    if (listing.length === 0) {
+    const listing = await ListingModel.findById(req.params.id);
+
+    if (!listing) {
       return res
         .status(400)
         .json({ status: "error", error: "Listing not found" });
@@ -70,7 +66,6 @@ const getListingById = async (req, res) => {
 const createListing = async (req, res) => {
   try {
     const createdListing = new ListingModel({
-      listing_id: uuidv4(),
       title: req.body.title,
       description: req.body.description,
       type: req.body.type,
@@ -83,7 +78,7 @@ const createListing = async (req, res) => {
     res.json({
       status: "ok",
       msg: "Listing saved",
-      listing_id: createdListing.listing_id,
+      id: createdListing._id,
     });
   } catch (error) {
     console.log(error.message);
@@ -93,10 +88,9 @@ const createListing = async (req, res) => {
 
 const patchListing = async (req, res) => {
   try {
-    const listing = await ListingModel.find({
-      listing_id: req.params.listing_id,
-    });
-    if (listing.length === 0) {
+    const listing = await ListingModel.findById(req.params.id);
+    // console.log(listing);
+    if (!listing) {
       return res
         .status(400)
         .json({ status: "error", error: "Listing not found" });
@@ -114,10 +108,8 @@ const patchListing = async (req, res) => {
       updatedListing.date_available_to = req.body.date_available_to;
     if ("image_url" in req.body) updatedListing.image_url = req.body.image_url;
 
-    await ListingModel.updateOne(
-      { listing_id: req.params.listing_id },
-      updatedListing
-    );
+    await ListingModel.findByIdAndUpdate(req.params.id, updatedListings);
+
     res.json({ status: "ok", message: "Listing updated" });
   } catch (error) {
     console.log(error.message);
@@ -127,15 +119,15 @@ const patchListing = async (req, res) => {
 
 const deleteListing = async (req, res) => {
   try {
-    const listing = await ListingModel.find({
-      listing_id: req.params.listing_id,
-    });
-    if (listing.length === 0) {
+    const listing = await ListingModel.findById(req.params.id);
+    // console.log(listing);
+    if (!listing) {
       return res
         .status(400)
         .json({ status: "error", error: "Listing not found" });
     }
-    await ListingModel.findOneAndDelete({ listing_id: req.params.listing_id });
+
+    await ListingModel.findByIdAndDelete(req.params.id);
 
     res.json({ status: "ok", message: "Listing deleted" });
   } catch (error) {
