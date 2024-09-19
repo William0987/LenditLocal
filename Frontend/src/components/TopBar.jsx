@@ -37,7 +37,7 @@ const TopBar = (props) => {
             connectify
           </Typography>
 
-          {/* conditional rendering of avatar & burger menu */}
+          
           {props.showBurger && (
             <>
               <IconButton sx={{ p: 1 }}>
@@ -57,7 +57,6 @@ const TopBar = (props) => {
             </>
           )}
 
-          {/* navigavtion bar */}
           <NavBar
             anchorElUser={anchorElUser}
             handleCloseUserMenu={handleCloseUserMenu}
