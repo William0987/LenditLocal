@@ -33,7 +33,7 @@ const seedAuth = async (req, res) => {
 const getAllAccount = async (req, res) => {
   try {
     const allAcc = await AuthModel.find();
-    res.json(allBooks);
+    res.json(allAcc);
   } catch (error) {
     console.log(error.message);
     res.json({ status: "error", msg: error.message });
@@ -100,4 +100,4 @@ const refresh = (req, res) => {
     res.status(400).json({ status: "error", msg: "token refresh error" });
   }
 };
-module.exports = { seedAuth, register, login, refresh };
+module.exports = { seedAuth, register, getAllAccount, login, refresh };
