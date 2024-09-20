@@ -12,21 +12,21 @@ const seedTransactions = async (req, res) => {
         listing_id: "64d0f3f75676c304033d8c89",
         owner_id: "64e2c2fcdce21246ef81b8ed",
         requester_id: "64e2c2ffdce21246ef81b8f4",
-        type: "pending_response",
+        status: "pending_owner_response",
       },
       {
         _id: "64e2c98f2097aba61989d93d",
         listing_id: "64d0f3f75676c304033d8c89",
         owner_id: "64e2c2fcdce21246ef81b8ed",
         requester_id: "64e2c2ffdce21246ef81b8f4",
-        type: "pending_response",
+        status: "pending_owner_response",
       },
       {
         _id: "64e2c98f2097aba61989d93e",
         listing_id: "64d0f3f75676c304033d8c89",
         owner_id: "64e2c2fcdce21246ef81b8ed",
         requester_id: "64e2c2fcdce21246ef81b8ee",
-        type: "accepted",
+        status: "accepted",
       },
     ]);
     res.json({ status: "ok", msg: "Seeding transactions successful" });
@@ -48,18 +48,16 @@ const getAllTransactions = async (req, res) => {
   }
 };
 
-const getTransactionsByOwnerId = async (req, res) => {
+const getTransactionById = async (req, res) => {
   try {
-    const transactions = await TransactionModel.find({
-      owner_id: req.params.owner_id,
-    });
+    const transaction = await TransactionModel.findById(req.params.id);
 
-    if (transactions.length === 0) {
+    if (!transaction) {
       return res
         .status(400)
-        .json({ status: "error", error: "Transactions not found" });
+        .json({ status: "error", error: "Transaction not found" });
     }
-    res.json(transactions);
+    res.json(transaction);
   } catch (error) {
     console.log(error.message);
     res
@@ -68,25 +66,26 @@ const getTransactionsByOwnerId = async (req, res) => {
   }
 };
 
-const getTransactionsByRequesterId = async (req, res) => {
-  try {
-    const transactions = await TransactionModel.find({
-      requester_id: req.params.requester_id,
-    });
+// Get transactions by owner's id
+// const getTransactionsByOwnerId = async (req, res) => {
+//   try {
+//     const transactions = await TransactionModel.find({
+//       owner_id: req.params.owner_id,
+//     });
 
-    if (transactions.length === 0) {
-      return res
-        .status(400)
-        .json({ status: "error", error: "Transactions not found" });
-    }
-    res.json(transactions);
-  } catch (error) {
-    console.log(error.message);
-    res
-      .status(400)
-      .json({ status: "error", message: "Cannot get transactions" });
-  }
-};
+//     if (transactions.length === 0) {
+//       return res
+//         .status(400)
+//         .json({ status: "error", error: "Transactions not found" });
+//     }
+//     res.json(transactions);
+//   } catch (error) {
+//     console.log(error.message);
+//     res
+//       .status(400)
+//       .json({ status: "error", message: "Cannot get transaction" });
+//   }
+// };
 
 const createTransaction = async (req, res) => {
   try {
@@ -124,6 +123,7 @@ const updateTransaction = async (req, res) => {
       updatedTransaction.requester_id = req.body.requester_id;
     if ("listing_id" in req.body)
       updatedTransaction.listing_id = req.body.listing_id;
+    if ("status" in req.body) updatedTransaction.status = req.body.status;
 
     await TransactionModel.findByIdAndUpdate(req.params.id, updatedTransaction);
 
@@ -150,8 +150,7 @@ const deleteTransaction = async (req, res) => {
 module.exports = {
   seedTransactions,
   getAllTransactions,
-  getTransactionsByOwnerId,
-  getTransactionsByRequesterId,
+  getTransactionById,
   createTransaction,
   updateTransaction,
   deleteTransaction,
