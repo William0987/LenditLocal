@@ -7,6 +7,7 @@ const rateLimit = require("express-rate-limit");
 const connectDB = require("./src/db/db"); 
 
 connectDB();
+
 const transactions = require("./src/routers/transactions");
 const listings = require("./src/routers/listings");
 const auth = require("./src/routers/auth");
@@ -19,7 +20,6 @@ const limit = rateLimit({
 });
 
 const app = express();
-
 app.use(cors());
 app.use(helmet());
 app.use(limit);
