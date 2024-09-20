@@ -38,7 +38,11 @@ const seedTransactions = async (req, res) => {
 
 const getAllTransactions = async (req, res) => {
   try {
-    const allTransactions = await TransactionModel.find();
+    const allTransactions = await TransactionModel.find().populate([
+      "owner_id",
+      "requester_id",
+      "listing_id",
+    ]);
     res.json(allTransactions);
   } catch (error) {
     console.log(error.message);
@@ -50,7 +54,9 @@ const getAllTransactions = async (req, res) => {
 
 const getTransactionById = async (req, res) => {
   try {
-    const transaction = await TransactionModel.findById(req.params.id);
+    const transaction = await TransactionModel.findById(req.params.id).populate(
+      ["owner_id", "requester_id", "listing_id"]
+    );
 
     if (!transaction) {
       return res
@@ -66,26 +72,25 @@ const getTransactionById = async (req, res) => {
   }
 };
 
-// Get transactions by owner's id
-// const getTransactionsByOwnerId = async (req, res) => {
-//   try {
-//     const transactions = await TransactionModel.find({
-//       owner_id: req.params.owner_id,
-//     });
+const getTransactionsByOwnerId = async (req, res) => {
+  try {
+    const transactions = await TransactionModel.find({
+      owner_id: req.body.owner_id,
+    }).populate(["owner_id", "requester_id", "listing_id"]);
 
-//     if (transactions.length === 0) {
-//       return res
-//         .status(400)
-//         .json({ status: "error", error: "Transactions not found" });
-//     }
-//     res.json(transactions);
-//   } catch (error) {
-//     console.log(error.message);
-//     res
-//       .status(400)
-//       .json({ status: "error", message: "Cannot get transaction" });
-//   }
-// };
+    if (transactions.length === 0) {
+      return res
+        .status(400)
+        .json({ status: "error", error: "Transactions not found" });
+    }
+    res.json(transactions);
+  } catch (error) {
+    console.log(error.message);
+    res
+      .status(400)
+      .json({ status: "error", message: "Cannot get transaction" });
+  }
+};
 
 const createTransaction = async (req, res) => {
   try {
@@ -151,6 +156,7 @@ module.exports = {
   seedTransactions,
   getAllTransactions,
   getTransactionById,
+  getTransactionsByOwnerId,
   createTransaction,
   updateTransaction,
   deleteTransaction,
