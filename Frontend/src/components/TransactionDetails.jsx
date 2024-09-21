@@ -1,14 +1,14 @@
-import { React, useState } from "react";
-import { Box, Typography, Divider, Snackbar, Alert } from "@mui/material";
+import { React } from "react";
+import { Box, Typography, Divider } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import Btn from "./Btn";
 import Avt from "./Avt";
 import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
 import useFetch from "../hooks/useFetch";
 
 const TransactionDetails = (props) => {
+  const navigate = useNavigate();
   const fetchData = useFetch();
-  const [open, setOpen] = useState(false);
-
   let content = "";
 
   //Functions
@@ -23,21 +23,11 @@ const TransactionDetails = (props) => {
       }
     );
     if (res.ok) {
-      setOpen(true);
       props.setTransactionState(newStatus);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
     }
-  };
-
-  //Close snackbar
-  const handleClose = (event, reason) => {
-    if (reason === "clickaway") {
-      return;
-    }
-
-    setOpen(false);
   };
 
   if (props.txnToggle === "listings") {
@@ -142,7 +132,14 @@ const TransactionDetails = (props) => {
             request for {props.selectedTxn.listing_id.title}.
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
-            <Btn width={15}>View listing</Btn>
+            <Btn
+              width={15}
+              onClick={() => {
+                navigate(`/listing/${props.selectedTxn.listing_id._id}`);
+              }}
+            >
+              View listing
+            </Btn>
           </Box>
         </Box>
       );
@@ -199,7 +196,14 @@ const TransactionDetails = (props) => {
           </Typography>
 
           <Box sx={{ display: "flex", m: "0.5rem" }}>
-            <Btn width={10}>View Listing</Btn>
+            <Btn
+              width={10}
+              onClick={() => {
+                navigate(`/listing/${props.selectedTxn.listing_id._id}`);
+              }}
+            >
+              View Listing
+            </Btn>
           </Box>
         </Box>
       );
@@ -264,7 +268,14 @@ const TransactionDetails = (props) => {
             Better luck next time...
           </Typography>
           <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
-            <Btn width={15}>View listing</Btn>
+            <Btn
+              width={15}
+              onClick={() => {
+                navigate(`/listing/${props.selectedTxn.listing_id._id}`);
+              }}
+            >
+              View listing
+            </Btn>
           </Box>
         </Box>
       );
@@ -327,14 +338,8 @@ const TransactionDetails = (props) => {
         </Box>
       </Box>
       <Divider variant="middle" sx={{ marginLeft: "5%", marginRight: "5%" }} />
-      {/* display this if props.selectedTxn.status is "pending" */}
-      {content}
 
-      <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}>
-        <Alert onClose={handleClose} severity="success" sx={{ width: "100%" }}>
-          Transaction Accepted!
-        </Alert>
-      </Snackbar>
+      {content}
     </>
   );
 };

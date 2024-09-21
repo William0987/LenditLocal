@@ -24,6 +24,9 @@ import {
   DialogTitle,
   TextField,
   MenuItem,
+  CircularProgress,
+  Snackbar,
+  Alert,
 } from "@mui/material";
 import Btn from "../components/Btn";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
@@ -53,21 +56,6 @@ const ListingPage = () => {
     setOpenDelete(false);
   };
 
-  const handleSubmitRequest = async () => {
-    const res = await fetchData("/api/transactions/", "PUT", {
-      owner_id: listing.owner_id._id,
-      requester_id: "64e2c2fcdce21246ef81b8ed", //TODO: get requester_id
-      listing_id: params.item,
-    });
-
-    if (res.ok) {
-      navigate("/transactions");
-    } else {
-      alert(JSON.stringify(res.data));
-      console.log(res.data);
-    }
-  };
-
   const handleOpenEdit = () => {
     setOpenEdit(true);
   };
@@ -76,13 +64,36 @@ const ListingPage = () => {
     setOpenEdit(false);
   };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
+  const handleSubmitRequest = async () => {
+    const res = await fetchData("/api/transactions/", "PUT", {
+      owner_id: listing.owner_id._id,
+      requester_id: "64e2c2fcdce21246ef81b8ed", //TODO: get requester_id
+      listing_id: params.item,
+    });
+
+    if (res.ok) {
+      setOpen(true);
+      navigate("/transactions");
+    } else {
+      alert(JSON.stringify(res.data));
+      console.log(res.data);
+    }
+  };
+
   // endpoint
   const getListingById = async () => {
     const res = await fetchData("/api/listings/" + params.item);
 
     if (res.ok) {
       setListing(res.data);
-      console.log(res.data);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -148,7 +159,13 @@ const ListingPage = () => {
             </Grid>
 
             <Grid xs={5}>
-              <CardMedia component="img" image={listing.image_url} />
+              {listing.image_url ? (
+                <CardMedia component="img" image={listing.image_url} />
+              ) : (
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              )}
             </Grid>
             <Grid xs={7}>
               <Card elevation={0}>
