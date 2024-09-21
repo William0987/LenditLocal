@@ -21,8 +21,14 @@ const Transactions = (props) => {
   const [txnToggle, setTxnToggle] = useState("listings");
   const [selectedTxn, setSelectedTxn] = useState({});
   const [selectedTxnId, setSelectedTxnId] = useState("");
+  const [transactionState, setTransactionState] = useState("");
 
-  //fetch all transactions by owner
+  //Toggle to re-render page with either listings or requests
+  const handleToggle = (event, newSelection) => {
+    setTxnToggle(newSelection);
+  };
+
+  //For Listings view - fetch all transactions by owner
   const getTransactionsByOwner = async () => {
     const res = await fetchData("/api/transactions", "POST", {
       owner_id: "64e2c2fcdce21246ef81b8ed", //TODO: update to logged-in user
@@ -35,7 +41,20 @@ const Transactions = (props) => {
     }
   };
 
-  //get selected transaction
+  //For requests view - fetch all requests by owner
+  const getTransactionsByRequester = async () => {
+    const res = await fetchData("/api/transactions", "POST", {
+      requester_id: "64e2c2fcdce21246ef81b8ed", //TODO: update to logged-in user
+    });
+
+    if (res.ok) {
+      setTransactions(res.data);
+    } else {
+      alert(JSON.stringify(res.data));
+    }
+  };
+
+  //Get selected transaction
   const getSelectedTxn = async (id) => {
     const res = await fetchData("/api/transactions/" + id);
     if (!id) {
@@ -44,8 +63,8 @@ const Transactions = (props) => {
     }
 
     if (res.ok) {
-      console.log(res.data);
-      setSelectedTxn(res.data); //store in state
+      setSelectedTxn(res.data);
+      setTransactionState(res.data.status);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -54,8 +73,9 @@ const Transactions = (props) => {
 
   //On first render, get all transactions
   useEffect(() => {
-    getTransactionsByOwner();
-  }, []);
+    if (txnToggle === "listings") getTransactionsByOwner();
+    else if (txnToggle === "requests") getTransactionsByRequester();
+  }, [txnToggle]);
 
   //On first render, select first transaction
   useEffect(() => {
@@ -69,11 +89,6 @@ const Transactions = (props) => {
     getSelectedTxn(selectedTxnId);
   }, [selectedTxnId]);
 
-  const handleToggle = (event, newSelection) => {
-    setTxnToggle(newSelection);
-    //TODO: toggle to requests section
-  };
-
   return (
     <>
       <TopBar showBurger={true}></TopBar>
@@ -81,6 +96,7 @@ const Transactions = (props) => {
       <Container maxWidth="lg">
         <Box>
           <Grid container>
+            {/* header section */}
             <Grid xs={12}>
               <Typography variant="h5" textAlign="start" margin="2rem 0">
                 Your transactions
@@ -92,7 +108,6 @@ const Transactions = (props) => {
                 onChange={handleToggle}
                 aria-label="transaction selection"
               >
-                {/* add icons */}
                 <ToggleButton
                   value="listings"
                   aria-label="listings"
@@ -101,7 +116,7 @@ const Transactions = (props) => {
                   My Listings
                 </ToggleButton>
                 <ToggleButton
-                  value="rewuests"
+                  value="requests"
                   aria-label="requests"
                   sx={{ borderRadius: "5rem" }}
                 >
@@ -115,6 +130,7 @@ const Transactions = (props) => {
               />
             </Grid>
 
+            {/* transaction list */}
             <Grid xs={4.5}>
               {transactions.map((item, idx) => {
                 return (
@@ -124,18 +140,27 @@ const Transactions = (props) => {
                     listingTitle={item.listing_id.title}
                     listingImage={item.listing_id.image_url}
                     status={item.status}
+                    ownerName={item.owner_id.display_name}
+                    ownerImage={item.owner_id.image_url}
                     requesterName={item.requester_id.display_name}
                     requesterImage={item.requester_id.image_url}
                     setSelectedTxnId={setSelectedTxnId}
+                    txnToggle={txnToggle}
                   />
                 );
               })}
             </Grid>
+
             <Divider orientation="vertical" flexItem />
+
+            {/* transaction details */}
             <Grid xs={7}>
               {Object.keys(selectedTxn).length > 0 ? (
                 <TransactionDetails
                   selectedTxn={selectedTxn}
+                  txnToggle={txnToggle}
+                  transactionState={transactionState}
+                  setTransactionState={setTransactionState}
                 ></TransactionDetails>
               ) : (
                 <Box>
