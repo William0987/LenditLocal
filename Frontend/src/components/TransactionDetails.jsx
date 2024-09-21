@@ -154,7 +154,7 @@ const TransactionDetails = (props) => {
             margin="1rem"
             align="center"
           >
-            Thanks for being neighbourly!
+            Thanks for being friendly!
             <br />
             <FavoriteBorderIcon
               sx={{ fontSize: "60px", color: "pink" }}
@@ -171,8 +171,18 @@ const TransactionDetails = (props) => {
             This transaction is complete.
           </Typography>
           <Box sx={{ display: "flex", m: "0.5rem" }} justifyContent="center">
-            <Btn width={15}>Leave a review</Btn>
-            <Btn width={15}>Re-list this item</Btn>
+            {/* add review button after functionality added  */}
+            {/* <Btn width={15}>
+              Leave a review
+            </Btn> */}
+            <Btn
+              width={10}
+              onClick={() => {
+                navigate(`/listing/${props.selectedTxn.listing_id._id}`);
+              }}
+            >
+              View Listing
+            </Btn>
           </Box>
         </Box>
       );
@@ -290,7 +300,7 @@ const TransactionDetails = (props) => {
             margin="1rem"
             align="center"
           >
-            Thanks for being neighbourly!
+            Thanks for being friendly!
             <br />
             <FavoriteBorderIcon
               sx={{ fontSize: "60px", color: "pink" }}
@@ -308,7 +318,8 @@ const TransactionDetails = (props) => {
             {props.selectedTxn.owner_id.display_name} a review to say thanks!.
           </Typography>
           <Box sx={{ display: "flex", m: "0.5rem" }} justifyContent="center">
-            <Btn width={15}>Leave a review</Btn>
+            {/* add review button after functionality added  */}
+            {/* <Btn width={15}>Leave a review</Btn> */}
           </Box>
         </Box>
       );
