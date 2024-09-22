@@ -1,7 +1,9 @@
 import React, { useContext, useState } from "react";
 import TopBar from "../components/TopBar";
 import Grid from "@mui/material/Unstable_Grid2";
+import DistrictEnums from "../enums/districtEnums";
 import {
+  Autocomplete,
   Container,
   Typography,
   Box,
@@ -16,17 +18,18 @@ import {
 import UserContext from "../context/user";
 import useFetch from "../hooks/useFetch";
 import Btn from "../components/Btn";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 
 const Settings = (props) => {
   const userCtx = useContext(UserContext);
   const userFullInfo = userCtx.userInfo;
   const [openUpdate, setOpenUpdate] = useState(false);
   const [name, setName] = useState("");
-  const [bio, setBio] = useState("");
-  const [number, setNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [zip, setZip] = useState("");
-  const [district, setDistrict] = useState("");
+  const [bio1, setBio1] = useState("");
+  const [number1, setNumber1] = useState("");
+  const [email1, setEmail1] = useState("");
+  const [zip1, setZip1] = useState("");
+  const [district1, setDistrict1] = useState("");
 
   const fetchData = useFetch();
 
@@ -38,23 +41,22 @@ const Settings = (props) => {
     setOpenUpdate(false);
   };
 
-  const updateUser = async (id) => {
-    console.log(id);
-
+  const updateUser = async () => {
     const userData = {
       display_name: name,
-      biography: bio,
-      mobile_number: number,
-      email: email,
+      biography: bio1,
+      mobile_number: number1,
+      email: email1,
       location: [
         {
-          district,
-          postal_code: zip,
+          district: district1,
+          postal_code: zip1,
         },
       ],
     };
+    console.log(userFullInfo);
     const res = await fetchData(
-      "/auth/accounts/" + id,
+      "/auth/update/" + userFullInfo._id,
       "PATCH",
       userData,
       userCtx.accessToken
@@ -92,6 +94,7 @@ const Settings = (props) => {
         returnValue = { ok: false, data: data.msg };
       } else {
         returnValue = { ok: true, data };
+        alert("Profile Picture updated");
       }
     } else {
       if (data?.errors && Array.isArray(data.errors)) {
@@ -112,7 +115,7 @@ const Settings = (props) => {
     const file = event.target.files[0];
     setFile(file);
   };
-
+  JSON.stringify(userCtx);
   return (
     <>
       <TopBar showBurger={true}></TopBar>
@@ -131,15 +134,14 @@ const Settings = (props) => {
                 display="flex"
                 justifycontent="center"
               ></Avatar>
-              <form onSubmit={submit} className="flex">
-                <input
-                  onChange={fileSelected}
-                  type="file"
-                  accept="image/*"
-                ></input>
 
-                <Btn type="submit">Update</Btn>
-              </form>
+              <input
+                onChange={fileSelected}
+                type="file"
+                accept="image/*"
+              ></input>
+
+              <Btn onClick={submit}>Update</Btn>
             </Grid>
             <Grid xs={9}>
               <Typography textAlign="center"></Typography>
@@ -181,10 +183,10 @@ const Settings = (props) => {
                   Locations :
                 </Typography>
                 <Typography gutterBottom variant="h6">
-                  {userCtx.userInfo.location[0].district}
+                  {userCtx.userInfo?.location?.[0].district}
                 </Typography>
                 <Typography gutterBottom variant="h6">
-                  {userCtx.userInfo.location[0].postal_code}
+                  {userCtx.userInfo?.location?.[0].postal_code}
                 </Typography>
               </Box>
               <Btn
@@ -215,34 +217,70 @@ const Settings = (props) => {
               autoComplete="off"
             >
               <Box xs={2}>
-                <Typography>Name :</Typography>
+                {/* <Typography>Name :</Typography> */}
                 <TextField
+                  id="filled-password-input"
+                  label="Name"
+                  variant="filled"
                   onChange={(e) => setName(e.target.value)}
                 ></TextField>
               </Box>
               <Box xs={2}>
                 <Typography>Email:</Typography>
                 <TextField
-                  onChange={(e) => setEmail(e.target.value)}
+                  id="filled-read-only-input"
+                  label="Email"
+                  defaultValue={userCtx.userInfo.email}
+                  InputProps={{
+                    readOnly: true,
+                  }}
+                  variant="filled"
+                  onChange={(e) => setEmail1(e.target.value)}
                 ></TextField>
               </Box>
               <Box xs={2}>
-                <Typography>Biography :</Typography>
+                {/* <Typography>Biography :</Typography> */}
 
-                <TextField onChange={(e) => setBio(e.target.value)}></TextField>
-              </Box>
-              <Box xs={2}>
-                <Typography>Mobile Number :</Typography>
                 <TextField
-                  onChange={(e) => setNumber(e.target.value)}
+                  id="filled-password-input"
+                  label="Interests & Hobbies"
+                  variant="filled"
+                  onChange={(e) => setBio1(e.target.value)}
                 ></TextField>
               </Box>
               <Box xs={2}>
-                <Typography>Locations :</Typography>
+                {/* <Typography>Mobile Number :</Typography> */}
                 <TextField
-                  onChange={(e) => setDistrict(e.target.value)}
+                  id="filled-password-input"
+                  label="Mobile Number"
+                  variant="filled"
+                  onChange={(e) => setNumber1(e.target.value)}
                 ></TextField>
-                <TextField onChange={(e) => setZip(e.target.value)}></TextField>
+              </Box>
+              <Box xs={2}>
+                {/* <Typography>Locations :</Typography>
+                <TextField
+                  onChange={(e) => setDistrict1(e.target.value)}
+                ></TextField> */}
+                <Autocomplete
+                  disablePortal
+                  id="filled-password-input"
+                  variant="filled"
+                  options={DistrictEnums}
+                  inputValue={district1}
+                  onInputChange={(event, newInputValue) => {
+                    setDistrict1(newInputValue);
+                  }}
+                  renderInput={(params) => (
+                    <TextField {...params} label="District" />
+                  )}
+                />
+                <TextField
+                  id="filled-password-input"
+                  label="Postal Code"
+                  variant="filled"
+                  onChange={(e) => setZip1(e.target.value)}
+                ></TextField>
               </Box>
             </Box>
           </DialogContentText>

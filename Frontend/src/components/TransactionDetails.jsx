@@ -39,14 +39,14 @@ const TransactionDetails = (props) => {
     }
   };
 
-  // //NOTE: Not working
-  // useEffect(() => {
-  //   setSelectedTxn(props.selectedTxn);
-  //   console.log("set");
-  // }, [props.selectedTxn]);
-  // useEffect(() => {
-  //   setTxnToggle(props.txnToggle);
-  // }, [props.txnToggle]);
+  //NOTE: Not working
+  useEffect(() => {
+    setSelectedTxn(props.selectedTxn);
+  }, [props.selectedTxn]);
+
+  useEffect(() => {
+    setTxnToggle(props.txnToggle);
+  }, [props.txnToggle]);
 
   //generate content based on txnToggle and transaction state
   if (props.txnToggle === "listings") {
@@ -378,8 +378,6 @@ const TransactionDetails = (props) => {
       );
     }
   }
-  console.log("requester: " + props.selectedTxn.requester_id.display_name);
-  console.log("owner: " + props.selectedTxn.owner_id.display_name);
   return (
     <>
       <Box sx={{ display: "flex", m: "1rem" }}>
@@ -396,7 +394,7 @@ const TransactionDetails = (props) => {
                       ? props.selectedTxn.requester_id._id
                       : props.selectedTxn.owner_id._id
                   }`
-                ); 
+                );
               }}
             >
               <Avt

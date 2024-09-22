@@ -49,8 +49,4 @@ const uploadImage = async (req, res) => {
   }
 };
 
-const getImages = async (req, res) => {};
-
-const deleteImage = async (req, res) => {};
-
-module.exports = { getImages, uploadImage, deleteImage };
+module.exports = { uploadImage };
