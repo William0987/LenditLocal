@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import UserContext from "./context/user";
+import useFetch from "./hooks/useFetch";
 
 import SignIn from "./pages/SignIn";
 import Registration from "./pages/Registration";
@@ -13,13 +14,15 @@ import AddOffer from "./pages/AddOffer";
 import Transactions from "./pages/Transactions";
 
 function App() {
+  const fetchData = useFetch();
   const [accessToken, setAccessToken] = useState("");
+  const [userId, setUserId] = useState("");
   const [userInfo, setUserInfo] = useState({
     _id: "64e2c2fcdce21246ef81b8ee",
     email: "hwee@test.com",
     hash: "$2b$05$NJohi/xGECGnXCit27WdvOSjGrRyZlU1at0MCCIg/9h8T6R6uEvLW",
     display_name: "Hwee",
-    biography: "I am a test user2",
+    biography: "A then-laywer. So don't mess with me :)",
     mobile_number: 12345678,
     help_count: 0,
     rating: 0,
@@ -35,12 +38,24 @@ function App() {
     image_url: "/avatars/30.png",
     created_at: "2023-08-21T11:03:26.780Z",
   });
-  const [showLogin, setShowLogin] = useState(true);
+
+  const getUserInfo = async () => {
+    const res = await fetchData("/auth/accounts/" + id);
+  };
+
+  useEffect(() => {});
 
   return (
     <div className="margin-padding-0">
       <UserContext.Provider
-        value={{ accessToken, setAccessToken, userInfo, setUserInfo }}
+        value={{
+          accessToken,
+          setAccessToken,
+          userInfo,
+          setUserInfo,
+          userId,
+          setUserId,
+        }}
       >
         <Routes>
           <Route path="/sign-in" element={<SignIn />}></Route>
