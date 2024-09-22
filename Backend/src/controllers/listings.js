@@ -71,8 +71,20 @@ const getAllListingsByDistrict = async (req, res) => {
 
     const filtered = allListings.filter((item) => item.owner_id != null);
 
-    // res.json(allListings);
     res.json(filtered);
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ status: "error", msg: "Error getting listings" });
+  }
+};
+
+const getAllListingsByUserId = async (req, res) => {
+  try {
+    const allListings = await ListingModel.find({
+      owner_id: req.body.owner_id,
+    });
+
+    res.json(allListings);
   } catch (error) {
     console.log(error.message);
     res.status(400).json({ status: "error", msg: "Error getting listings" });
@@ -177,6 +189,7 @@ module.exports = {
   seedListings,
   getAllListings,
   getAllListingsByDistrict,
+  getAllListingsByUserId,
   getListingById,
   createListing,
   patchListing,

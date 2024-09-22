@@ -12,6 +12,8 @@ import {
 import Btn from "../components/Btn";
 import { useNavigate } from "react-router-dom";
 import DistrictEnums from "../enums/districtEnums";
+import Carousel from "react-material-ui-carousel";
+import CarouselItem from "../components/CarouselItem";
 
 const Registration = (props) => {
   const fetchData = useFetch();
@@ -43,6 +45,24 @@ const Registration = (props) => {
     }
   };
 
+  const carouselItems = [
+    {
+      name: "Random Name #1",
+      description: "Probably the most random thing you have ever seen!",
+      image_src: "public/homepage/1.png",
+    },
+    {
+      name: "Random Name #2",
+      description: "Hello World!",
+      image_src: "public/homepage/2.png",
+    },
+    {
+      name: "Random Name #2",
+      description: "Hello World!",
+      image_src: "public/homepage/3.png",
+    },
+  ];
+
   return (
     <>
       <TopBar></TopBar>
@@ -58,15 +78,25 @@ const Registration = (props) => {
         >
           <Grid container>
             <Grid
-              xs={12}
+              xs={6}
+              justifyContent="center"
               style={{ borderStyle: "solid" }}
+            >
+              <Carousel>
+                {carouselItems.map((item, i) => (
+                  <CarouselItem key={i} item={item} />
+                ))}
+              </Carousel>
+            </Grid>
+            <Grid
+              xs={6}
               container
               direction="column"
               justifyContent="center"
               alignItems="center"
             >
-              <Typography textAlign="center">
-                Register For an Account
+              <Typography variant="h5" textAlign="start" margin="2rem 0">
+                Register for an account
               </Typography>
               <div>
                 <TextField
