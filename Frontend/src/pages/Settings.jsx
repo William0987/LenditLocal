@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import TopBar from "../components/TopBar";
 import Grid from "@mui/material/Unstable_Grid2";
 import DistrictEnums from "../enums/districtEnums";
@@ -54,7 +55,8 @@ const Settings = (props) => {
         },
       ],
     };
-    console.log(userFullInfo);
+
+    console.log("update body: " + JSON.stringify(userData));
     const res = await fetchData(
       "/auth/update/" + userFullInfo._id,
       "PATCH",
@@ -66,6 +68,7 @@ const Settings = (props) => {
       handleCloseUpdate();
       console.log("update succeeded");
       console.log(res.data);
+      userCtx.getUserInfo();
     } else {
       console.log(res.data);
     }
@@ -102,6 +105,7 @@ const Settings = (props) => {
       } else {
         returnValue = { ok: true, data };
         alert("Profile Picture updated");
+        userCtx.getUserInfo();
       }
     } else {
       if (data?.errors && Array.isArray(data.errors)) {
@@ -122,7 +126,7 @@ const Settings = (props) => {
     const file = event.target.files[0];
     setFile(file);
   };
-  JSON.stringify(userCtx);
+
   return (
     <>
       <TopBar showBurger={true}></TopBar>
@@ -227,6 +231,7 @@ const Settings = (props) => {
                 {/* <Typography>Name :</Typography> */}
                 <TextField
                   id="filled-password-input"
+                  defaultValue={userCtx.userInfo.display_name}
                   label="Name"
                   variant="filled"
                   onChange={(e) => setName(e.target.value)}
@@ -251,6 +256,7 @@ const Settings = (props) => {
                 <TextField
                   id="filled-password-input"
                   label="Interests & Hobbies"
+                  defaultValue={userCtx.userInfo.biography}
                   variant="filled"
                   onChange={(e) => setBio1(e.target.value)}
                 ></TextField>
@@ -260,6 +266,7 @@ const Settings = (props) => {
                 <TextField
                   id="filled-password-input"
                   label="Mobile Number"
+                  defaultValue={userCtx.userInfo.mobile_number}
                   variant="filled"
                   onChange={(e) => setNumber1(e.target.value)}
                 ></TextField>
@@ -273,6 +280,7 @@ const Settings = (props) => {
                   disablePortal
                   id="filled-password-input"
                   variant="filled"
+                  defaultValue={userCtx.userInfo?.location?.[0].district}
                   options={DistrictEnums}
                   inputValue={district1}
                   onInputChange={(event, newInputValue) => {
@@ -286,6 +294,7 @@ const Settings = (props) => {
                   id="filled-password-input"
                   label="Postal Code"
                   variant="filled"
+                  defaultValue={userCtx.userInfo?.location?.[0].postal_code}
                   onChange={(e) => setZip1(e.target.value)}
                 ></TextField>
               </Box>
