@@ -11,10 +11,11 @@ connectDB();
 const transactions = require("./src/routers/transactions");
 const listings = require("./src/routers/listings");
 const auth = require("./src/routers/auth");
+const images = require("./src/routers/images");
 
 const limit = rateLimit({
   windowMs: 1 * 60 * 1000, 
-  max: 100,
+  max: 1000,
   standardHeaders: true,
   legacyHeaders: false,
 });
@@ -29,6 +30,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use("/api", listings);
 app.use("/api", transactions);
 app.use("/auth", auth);
+app.use("/api", images);
 
 const PORT = process.env.PORT || 5001;
 app.listen(PORT, () => {

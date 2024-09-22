@@ -42,9 +42,8 @@ import dayjs from "dayjs";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import HandshakeTwoToneIcon from "@mui/icons-material/HandshakeTwoTone";
-import { CheckBox } from "@mui/icons-material";
 
-const ListingPage = () => {
+const ListingPage = (props) => {
   const params = useParams();
   const navigate = useNavigate();
   const fetchData = useFetch();
@@ -90,9 +89,6 @@ const ListingPage = () => {
     switch (btnName) {
       case "edit":
         return "Listing updated!";
-        break;
-      case "delete":
-        return "Listing deleted!";
         break;
       case "submit":
         return "Request submitted!";
@@ -178,12 +174,10 @@ const ListingPage = () => {
     const res = await fetchData("/api/listings/" + params.item, "DELETE");
 
     if (res.ok) {
-      // to display snackbar at profile page instead!!!
-      // setBtnName(e.target.id);
-      // setOpen(true);
+      props.setOpen(true);
 
       setOpenDelete(false);
-      navigate("/profile");
+      navigate(`/profile/${userCtx.userInfo._id}`);
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -233,7 +227,11 @@ const ListingPage = () => {
                     // onClick to listing owner profile
                     avatar={
                       <Tooltip title="View Profile" placement="top">
-                        <IconButton onClick={() => console.log("to profile")}>
+                        <IconButton
+                          onClick={() =>
+                            navigate(`/profile/${userCtx.userInfo._id}`)
+                          }
+                        >
                           <Avt
                             sx={{ width: "3rem", height: "3rem" }}
                             src={listing.owner_id?.image_url}
@@ -242,7 +240,11 @@ const ListingPage = () => {
                       </Tooltip>
                     }
                     title={listing?.owner_id?.display_name}
-                    subheader={`Your neighbour at ${userCtx.userInfo.location[0].district}`}
+                    subheader={
+                      user_id !== listing_owner_id
+                        ? `Your neighbour at ${userCtx.userInfo.location[0].district}`
+                        : `Your listing at ${userCtx.userInfo.location[0].district}`
+                    }
                   />
                 </Card>
               </Grid>
@@ -396,6 +398,8 @@ const ListingPage = () => {
               onChange={(e) => dateForUpdate(e)}
             />
             <DatePicker
+              disablePast
+              minDate={dayjs(dateFrom + 48)}
               label="Available to"
               variant="outlined"
               sx={{ width: "25rem", mt: "0.4rem" }}

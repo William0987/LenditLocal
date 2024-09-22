@@ -32,7 +32,7 @@ const OfferPage = () => {
   // endpoints
   const getListings = async () => {
     const res = await fetchData("/api/listings/district", "POST", {
-      location: userCtx.userInfo.location[0].district,
+      location: userCtx.userInfo.location?.[0].district,
     });
 
     if (res.ok) {
@@ -57,7 +57,7 @@ const OfferPage = () => {
             <Grid container alignItems="center">
               <Grid xs={12}>
                 <Typography variant="h5" textAlign="start" margin="2rem 0">
-                  {`Happening in ${userCtx.userInfo.location[0].district} neighbourhood`}
+                  {`Happening in ${userCtx.userInfo?.location?.[0].district} neighbourhood`}
                 </Typography>
               </Grid>
               {/* Material UI Search Bar */}
@@ -65,7 +65,6 @@ const OfferPage = () => {
                 <FormControl
                   sx={{
                     width: "20rem",
-                    input: { fontFamily: "var(--font)" },
                   }}
                   variant="outlined"
                   className="search-bar"
