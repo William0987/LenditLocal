@@ -9,7 +9,17 @@ Welcome to the LenditLocal App, where users can give away or lend their items or
 # Screenshots:
 
 <img src="Frontend/public/app screenshots/Sign In Page.png">
+<img src="Frontend/public/app screenshots/Register Page.png">
+<img src="Frontend/public/app screenshots/Profile Overview.png">
+<img src="Frontend/public/app screenshots/Profile Settings.png">
+<img src="Frontend/public/app screenshots/Neighbourhood LIstings.png">
+<img src="Frontend/public/app screenshots/Create Listing.png">
+<img src="Frontend/public/app screenshots/Edit Listing.png">
 <img src="Frontend/public/app screenshots/Submit Request.png">
+<img src="Frontend/public/app screenshots/Transactions Page.png">
+<img src="Frontend/public/app screenshots/Accept Request.png">
+<img src="Frontend/public/app screenshots/Complete Transaction.png">
+<img src="Frontend/public/app screenshots/Help Count.png">
 
 # Technologies Used:
 
