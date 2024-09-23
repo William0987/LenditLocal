@@ -26,11 +26,9 @@ const OfferPage = () => {
   const navigate = useNavigate();
   const fetchData = useFetch();
 
-  // states
   const [listings, setListings] = useState([]);
   const [dispListings, setDispListings] = useState([]);
 
-  // endpoints
   const getListings = async () => {
     const res = await fetchData("/api/listings/district", "POST", {
       location: userCtx.userInfo.location?.[0].district,
@@ -45,7 +43,6 @@ const OfferPage = () => {
     }
   };
 
-  // function
   const handleSearch = (e) => {
     const filtered = listings.filter((item) => {
       const lowerCaseTitle = item.title.toLowerCase();
@@ -73,7 +70,6 @@ const OfferPage = () => {
                   {`Happening in ${userCtx.userInfo?.location?.[0].district} neighbourhood`}
                 </Typography>
               </Grid>
-              {/* Material UI Search Bar */}
               <Grid xs={10}>
                 <FormControl
                   sx={{
@@ -108,8 +104,7 @@ const OfferPage = () => {
               <Grid xs={2}>
                 <Btn onClick={() => navigate("/add-offer")}>+ Add Offer</Btn>
               </Grid>
-
-              {/* listings card */}
+              
               {listings ? (
                 <Listings listings={dispListings}></Listings>
               ) : (

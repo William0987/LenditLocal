@@ -68,9 +68,7 @@ const createListing = async (req, res) => {
       description: req.body.description,
       type: req.body.type,
       owner_id: req.body.owner_id,
-      date_available_from: req.body.date_available_from,
-      // date_available_to: req.body.date_available_to,
-      // image_url: req.body.image_url,
+      date_available_from: req.body.date_available_from
     });
     if ("date_available_to" in req.body)
       createdListing.date_available_to = req.body.date_available_to;
@@ -121,7 +119,6 @@ const patchListing = async (req, res) => {
 const deleteListing = async (req, res) => {
   try {
     const listing = await ListingModel.findById(req.params.id);
-    // console.log(listing);
     if (!listing) {
       return res
         .status(400)

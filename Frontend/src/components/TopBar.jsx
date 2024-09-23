@@ -60,7 +60,7 @@ const TopBar = (props) => {
               sx={{ flexGrow: 1 }}
               className="burgundy-text"
             >
-              connectify
+              LenditLocal
             </Typography>
 
              

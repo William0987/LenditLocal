@@ -27,11 +27,9 @@ const Profile = (props) => {
   const fetchData = useFetch();
   const navigate = useNavigate();
 
-  // states
   const [listings, setListings] = useState([]);
   const [currProfile, setCurrProfile] = useState([]);
 
-  // snackbar functions
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -53,7 +51,6 @@ const Profile = (props) => {
     </React.Fragment>
   );
 
-  // Endpoint
   const getListingsByUserId = async () => {
     const res = await fetchData("/api/listings/userId", "POST", {
       owner_id: params.item,
@@ -78,7 +75,6 @@ const Profile = (props) => {
     }
   };
 
-  //render on mount
   useEffect(() => {
     getListingsByUserId();
     getProfileInfo();
@@ -108,7 +104,7 @@ const Profile = (props) => {
                   fontWeight="bold"
                   sx={{ ml: "3rem" }}
                 >
-                  {/* optional chaining for object and array to prevent page load fail */}
+                 
                   {`Neighbourhood: ${currProfile.location?.[0].district}`}
                 </Typography>
                 <Typography sx={{ ml: "3rem" }}>
@@ -154,7 +150,7 @@ const Profile = (props) => {
                 <Btn onClick={() => navigate("/add-offer")}>+ Add Offer</Btn>
               )}
             </Grid>
-            {/* listings card */}
+            
             {listings ? (
               <Listings listings={listings}></Listings>
             ) : (
@@ -166,7 +162,6 @@ const Profile = (props) => {
         </Box>
       </Container>
 
-      {/* snackbar */}
       <div>
         <Snackbar
           open={props.open}

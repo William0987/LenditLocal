@@ -15,9 +15,6 @@ const TransactionDetails = (props) => {
   const fetchData = useFetch();
   let content = "";
 
-  //Functions
-
-  //When user clicks "Accept", update transaction status to "accepted"
   const updateTxnStatus = async (newStatus) => {
     const res = await fetchData(
       "/api/transactions/" + props.selectedTxn._id,
@@ -38,9 +35,7 @@ const TransactionDetails = (props) => {
     }
   };
 
-  //generate content based on txnToggle and transaction state
   if (props.txnToggle === "listings") {
-    //content for user's listings
     if (props.transactionState === "pending_owner_response") {
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
@@ -82,7 +77,6 @@ const TransactionDetails = (props) => {
         </Box>
       );
     } else if (props.transactionState === "accepted") {
-      // Render content for the "accepted" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -115,20 +109,9 @@ const TransactionDetails = (props) => {
               Transaction Completed
             </Btn>
           </Box>
-
-          {/* <Typography
-            variant="body"
-            component="div"
-            display="block"
-            margin="1rem"
-          >
-            You can exchange reviews once you have marked this transaction as
-            complete.
-          </Typography> */}
         </Box>
       );
     } else if (props.transactionState === "declined") {
-      // Add content for the "declined" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -153,7 +136,6 @@ const TransactionDetails = (props) => {
         </Box>
       );
     } else if (props.transactionState === "completed") {
-      // Render content for the "completed" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -163,7 +145,7 @@ const TransactionDetails = (props) => {
             margin="1rem"
             align="center"
           >
-            Thanks for being friendly!
+            Thanks for being a good neighbour!
             <br />
             <FavoriteBorderIcon
               sx={{ fontSize: "60px", color: "pink" }}
@@ -182,22 +164,7 @@ const TransactionDetails = (props) => {
             </span>
             neighbours.<br></br>
           </Typography>
-          {/* <Typography
-            variant="body"
-            component="div"
-            display="block"
-            margin="1rem"
-            align="center"
-          >
-            This transaction is complete. Leave{" "}
-            {props.selectedTxn.requester_id.display_name} a review to say
-            thanks!.
-          </Typography> */}
           <Box sx={{ display: "flex", m: "0.5rem" }} justifyContent="center">
-            {/* add review button after functionality added  */}
-            {/* <Btn width={15}>
-              Leave a review
-            </Btn> */}
             <Btn
               width={10}
               onClick={() => {
@@ -211,7 +178,6 @@ const TransactionDetails = (props) => {
       );
     }
   } else if (props.txnToggle === "requests") {
-    //content for user's requests
     if (props.transactionState === "pending_owner_response") {
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
@@ -241,7 +207,6 @@ const TransactionDetails = (props) => {
         </Box>
       );
     } else if (props.transactionState === "accepted") {
-      // Render content for the "accepted" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -274,20 +239,9 @@ const TransactionDetails = (props) => {
               Transaction Completed
             </Btn>
           </Box>
-
-          {/* <Typography
-            variant="body"
-            component="div"
-            display="block"
-            margin="1rem"
-          >
-            You can exchange reviews once you have marked this transaction as
-            complete.
-          </Typography> */}
         </Box>
       );
     } else if (props.transactionState === "declined") {
-      // Add content for the "declined" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -313,7 +267,6 @@ const TransactionDetails = (props) => {
         </Box>
       );
     } else if (props.transactionState === "completed") {
-      // Render content for the "completed" state
       content = (
         <Box sx={{ display: "flex", flexDirection: "column", m: "0.5rem" }}>
           <Typography
@@ -323,7 +276,7 @@ const TransactionDetails = (props) => {
             margin="1rem"
             align="center"
           >
-            Thanks for being friendly!
+            Thanks for being a good neighbour!
             <br />
             <FavoriteBorderIcon
               sx={{ fontSize: "60px", color: "pink" }}
@@ -342,16 +295,6 @@ const TransactionDetails = (props) => {
             </span>
             neighbours.<br></br>
           </Typography>
-          {/* <Typography
-            variant="body"
-            component="div"
-            display="block"
-            margin="1rem"
-            align="center"
-          >
-            This transaction is complete. Leave{" "}
-            {props.selectedTxn.owner_id.display_name} a review to say thanks!.
-          </Typography> */}
           <Box sx={{ display: "flex", m: "0.5rem" }} justifyContent="center">
             <Btn
               width={15}
@@ -361,8 +304,6 @@ const TransactionDetails = (props) => {
             >
               View listing
             </Btn>
-            {/* add review button after functionality added  */}
-            {/* <Btn width={15}>Leave a review</Btn> */}
           </Box>
         </Box>
       );

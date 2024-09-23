@@ -37,7 +37,6 @@ const AuthSchema = new mongoose.Schema(
     mobile_number: {
       type: Number,
       required: false,
-      // default: "",
       minLength: 8,
       maxLength: 12,
     },

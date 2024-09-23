@@ -50,7 +50,6 @@ const ListingPage = (props) => {
   const userCtx = useContext(UserContext);
   const user_id = userCtx.userInfo._id;
 
-  // states & ref
   const [listing, setListing] = useState({});
   const [openDelete, setOpenDelete] = useState(false);
   const [openEdit, setOpenEdit] = useState(false);
@@ -58,9 +57,9 @@ const ListingPage = (props) => {
   const [dateFrom, setDateFrom] = useState(dayjs(listing.date_available_from));
   const [dateTo, setDateTo] = useState(dayjs(listing.date_available_to));
 
-  const [open, setOpen] = useState(false); //snackbar
-  const [btnName, setBtnName] = useState(""); //for snackbar
-  const [file, setFile] = useState(); //image file
+  const [open, setOpen] = useState(false); 
+  const [btnName, setBtnName] = useState(""); 
+  const [file, setFile] = useState(); 
   const [imageUrl, setImageUrl] = useState("");
 
   const titleRef = useRef("");
@@ -69,7 +68,6 @@ const ListingPage = (props) => {
 
   const listing_owner_id = listing.owner_id?._id;
 
-  // functions
   const handleOpenDelete = () => {
     setOpenDelete(true);
   };
@@ -110,7 +108,6 @@ const ListingPage = (props) => {
     setDateTo("");
   };
 
-  // snackbar functions
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -165,7 +162,6 @@ const ListingPage = (props) => {
     }
   };
 
-  //for image upload
   const submit = async (event) => {
     event.preventDefault();
     if (!file) {
@@ -174,9 +170,6 @@ const ListingPage = (props) => {
     }
     const formData = new FormData();
     formData.append("image", file);
-
-    // append listing_id to update existing listing
-    // formData.append("listing_id", userFullInfo._id);
 
     const res = await fetch(
       import.meta.env.VITE_SERVER + "/api/images/listings",
@@ -217,7 +210,6 @@ const ListingPage = (props) => {
     setFile(file);
   };
 
-  // endpoint
   const getListingById = async () => {
     const res = await fetchData("/api/listings/" + params.item);
 
@@ -294,7 +286,6 @@ const ListingPage = (props) => {
               <Grid xs={12}>
                 <Card style={{ marginTop: "2rem" }} elevation={0}>
                   <CardHeader
-                    // onClick to listing owner profile
                     avatar={
                       <Tooltip title="View Profile" placement="top">
                         <IconButton
@@ -358,7 +349,6 @@ const ListingPage = (props) => {
                     </Box>
                   </CardContent>
 
-                  {/* conditional rendering of buttons depending on owner or neighbour */}
                   <CardActions>
                     {user_id !== listing_owner_id ? (
                       <Btn
@@ -391,7 +381,6 @@ const ListingPage = (props) => {
           </Box>
         </Container>
 
-        {/* dialog for delete listing */}
         <Dialog
           open={openDelete}
           onClose={handleCloseDelete}
@@ -420,7 +409,6 @@ const ListingPage = (props) => {
           </DialogActions>
         </Dialog>
 
-        {/* dialog for edit listing */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>
           <DialogTitle>Edit Listing Details</DialogTitle>
           <DialogContent>
@@ -500,7 +488,6 @@ const ListingPage = (props) => {
           </DialogActions>
         </Dialog>
 
-        {/* snackbar */}
         <div>
           <Snackbar
             open={open}

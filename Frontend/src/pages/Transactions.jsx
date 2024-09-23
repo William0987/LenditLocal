@@ -24,12 +24,10 @@ const Transactions = (props) => {
   const [selectedTxn, setSelectedTxn] = useState({});
   const [transactionState, setTransactionState] = useState("");
 
-  //Toggle to re-render page with either listings or requests
   const handleToggle = (event, newSelection) => {
     setTxnToggle(newSelection);
   };
 
-  //For Listings view - fetch all transactions by owner
   const getTransactionsByOwner = async () => {
     const res = await fetchData(
       "/api/transactions",
@@ -50,7 +48,6 @@ const Transactions = (props) => {
     }
   };
 
-  //For requests view - fetch all requests by owner
   const getTransactionsByRequester = async () => {
     const res = await fetchData(
       "/api/transactions",
@@ -70,7 +67,6 @@ const Transactions = (props) => {
     }
   };
 
-  //Update selected transaction
   const updateSelectedTxn = async (id) => {
     const res = await fetchData(
       "/api/transactions/" + id,
@@ -79,7 +75,6 @@ const Transactions = (props) => {
       userCtx.accessToken
     );
     if (!id) {
-      // Return early if id is empty
       return;
     }
 
@@ -92,7 +87,6 @@ const Transactions = (props) => {
     }
   };
 
-  //Increment owner's score when transaction completes and update userInfo
   const incrementOwnerScore = () => {
     const newScore = selectedTxn.owner_id.help_count + 1;
     updateOwnerScore(newScore);
@@ -115,17 +109,14 @@ const Transactions = (props) => {
     }
   };
 
-  //On first render, and when toggle changes, get all transactions
   useEffect(() => {
     if (txnToggle === "listings")
-      getTransactionsByOwner(); //get data and update transactions state
-    else if (txnToggle === "requests") getTransactionsByRequester(); //get data and update transactions state
+      getTransactionsByOwner(); 
+    else if (txnToggle === "requests") getTransactionsByRequester(); 
   }, [txnToggle, userCtx.userInfo]);
 
-  // On first render, select first transaction
   useEffect(() => {
     if (
-      // if selectedTxn is not yet set, select first retrieved transaction
       (Object.keys(selectedTxn).length === 0 && transactions.length > 0) ||
       (Object.keys(selectedTxn).length > 0 && transactions.length > 0)
     ) {
@@ -141,7 +132,6 @@ const Transactions = (props) => {
       <Container maxWidth="lg">
         <Box>
           <Grid container>
-            {/* header section */}
             <Grid xs={12}>
               <Typography variant="h5" textAlign="start" margin="2rem 0">
                 Your transactions
@@ -175,7 +165,6 @@ const Transactions = (props) => {
               />
             </Grid>
 
-            {/* transaction list */}
             <Grid xs={4.5}>
               {transactions.map((item, idx) => {
                 if (item.listing_id) {
@@ -200,7 +189,6 @@ const Transactions = (props) => {
 
             <Divider orientation="vertical" flexItem />
 
-            {/* transaction details */}
             <Grid xs={7}>
               {Object.keys(selectedTxn).length > 0 ? (
                 <TransactionDetails

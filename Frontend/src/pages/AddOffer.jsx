@@ -27,7 +27,6 @@ const AddOffer = () => {
   const userCtx = useContext(UserContext);
   const navigate = useNavigate();
 
-  // useRef
   const titleRef = useRef("");
   const descriptionRef = useRef("");
   const typeRef = useRef("");
@@ -36,11 +35,10 @@ const AddOffer = () => {
   const [dateFrom, setDateFrom] = useState("");
   const [dateTo, setDateTo] = useState("");
   const [newListingId, setNewListingId] = useState("");
-  const [open, setOpen] = useState(false); //snackbar
-  const [file, setFile] = useState(); //image file
+  const [open, setOpen] = useState(false); 
+  const [file, setFile] = useState(); 
   const [imageUrl, setImageUrl] = useState("");
 
-  // function
   const handleCloseSnackbar = (event, reason) => {
     if (reason === "clickaway") {
       return;
@@ -72,7 +70,6 @@ const AddOffer = () => {
     </React.Fragment>
   );
 
-  // endpoint to create listing
   const createListing = async () => {
     const res = await fetchData(
       "/api/listings",
@@ -91,7 +88,6 @@ const AddOffer = () => {
 
     if (res.ok) {
       setOpen(true);
-      //to fetch all data?
       setNewListingId(res.data.id);
     } else {
       alert(JSON.stringify(res.data));
@@ -99,7 +95,6 @@ const AddOffer = () => {
     }
   };
 
-  //for image upload
   const submit = async (event) => {
     event.preventDefault();
     if (!file) {
@@ -108,9 +103,6 @@ const AddOffer = () => {
     }
     const formData = new FormData();
     formData.append("image", file);
-
-    // append listing_id to update existing listing
-    // formData.append("listing_id", userFullInfo._id);
 
     const res = await fetch(
       import.meta.env.VITE_SERVER + "/api/images/listings",
@@ -228,14 +220,6 @@ const AddOffer = () => {
                 />
               </Grid>
               <Grid xs={7}>
-                {/* <img
-                  alt=""
-                  src="public/sample-image.jpg"
-                  sx={{ width: 150, height: 150 }}
-                  display="flex"
-                  justifycontent="center"
-                ></img> */}
-
                 <input
                   onChange={fileSelected}
                   type="file"
@@ -252,7 +236,6 @@ const AddOffer = () => {
         </Container>
       </LocalizationProvider>
 
-      {/* snackbar */}
       <div>
         <Snackbar
           open={open}

@@ -24,10 +24,6 @@ const ProfileSetup = (props) => {
       display_name: dispName,
       biography: bio,
       mobile_number: number,
-
-      // dispName: dispNameRef.current.value,
-      // bio: bioRef.current.value,
-      // number: numberRef.current.value,
     };
     const res = await fetchData(
       "/auth/update/" + id,
@@ -93,7 +89,6 @@ const ProfileSetup = (props) => {
                 label="Phone Number"
                 variant="outlined"
                 defaultValue={userCtx.userInfo?.mobile_number}
-                // defaultValue="number"
                 onChange={(e) => setNumber(e.target.value)}
               />
               <Btn

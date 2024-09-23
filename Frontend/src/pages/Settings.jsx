@@ -34,7 +34,6 @@ const Settings = (props) => {
 
   const fetchData = useFetch();
 
-  // functions
   const handleOpenUpdate = () => {
     setOpenUpdate(true);
   };
@@ -71,7 +70,6 @@ const Settings = (props) => {
     }
   };
 
-  //for image upload
   const [file, setFile] = useState();
 
   const submit = async (event) => {
@@ -229,7 +227,6 @@ const Settings = (props) => {
         </Box>
       </Container>
 
-      {/* Edit account dialogue */}
       <Dialog
         open={openUpdate}
         onClose={handleCloseUpdate}
