@@ -28,8 +28,10 @@ const SignIn = (props) => {
     const res = await fetchData("/auth/login", "POST", { email, password });
     if (res.ok) {
       userCtx.setAccessToken(res.data.access);
+      localStorage.setItem("accessToken", JSON.stringify(res.data.access));
+
       const decoded = jwtDecode(res.data.access);
-      
+
       userCtx.setUserId(decoded.id);
       localStorage.setItem("userId", JSON.stringify(decoded.id));
 
@@ -76,18 +78,19 @@ const SignIn = (props) => {
               </Carousel>
             </Grid>
             <Grid
-              xs={5}
+              xs={6}
               container
               direction="column"
               justifycontent="center"
               alignItems="center"
             >
-              <Typography textAlign="center">Sign-in</Typography>
+              <Typography variant="h5" textAlign="start" margin="2rem 0">
+                Sign-in
+              </Typography>
               <TextField
                 // id="outlined-basic"
                 label="Email"
                 variant="outlined"
-                defaultValue="test@test.com"
                 onChange={(e) => setEmail(e.target.value)}
               />
               <TextField
@@ -95,7 +98,6 @@ const SignIn = (props) => {
                 label="Password"
                 type="password"
                 variant="outlined"
-                defaultValue="test1234"
                 onChange={(e) => setPassword(e.target.value)}
               />
 
