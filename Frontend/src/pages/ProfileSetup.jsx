@@ -16,11 +16,10 @@ const ProfileSetup = (props) => {
   const [number, setNumber] = useState("");
 
   const skipUpdate = async () => {
-    navigate("/");
+    navigate("/sign-in");
   };
 
   const updateUser = async (id) => {
-    console.log(id);
     const requestBody = {
       display_name: dispName,
       biography: bio,
@@ -30,7 +29,6 @@ const ProfileSetup = (props) => {
       // bio: bioRef.current.value,
       // number: numberRef.current.value,
     };
-    console.log(requestBody);
     const res = await fetchData(
       "/auth/update/" + id,
       "PATCH",
@@ -40,7 +38,7 @@ const ProfileSetup = (props) => {
 
     if (res.ok) {
       console.log(res.data);
-      navigate("/");
+      navigate("/sign-in");
     } else {
       alert(JSON.stringify(res.data));
       console.log(res.data);
@@ -95,6 +93,7 @@ const ProfileSetup = (props) => {
                 label="Phone Number"
                 variant="outlined"
                 defaultValue={userCtx.userInfo?.mobile_number}
+                // defaultValue="number"
                 onChange={(e) => setNumber(e.target.value)}
               />
               <Btn

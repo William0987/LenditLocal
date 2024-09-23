@@ -168,7 +168,6 @@ const ListingPage = (props) => {
   //for image upload
   const submit = async (event) => {
     event.preventDefault();
-    console.log(file);
     if (!file) {
       alert("Please select an image file");
       return;
@@ -197,7 +196,6 @@ const ListingPage = (props) => {
         returnValue = { ok: true, data };
         alert("Image uploaded");
         setImageUrl(data.url);
-        console.log(data.url);
       }
     } else {
       if (data?.errors && Array.isArray(data.errors)) {
@@ -235,6 +233,7 @@ const ListingPage = (props) => {
     const res = await fetchData(
       "/api/listings/" + params.item,
       "DELETE",
+      undefined,
       userCtx.accessToken
     );
 
@@ -423,9 +422,7 @@ const ListingPage = (props) => {
 
         {/* dialog for edit listing */}
         <Dialog open={openEdit} onClose={handleCloseEdit}>
-          <DialogTitle sx={{ pl: "5rem", pr: "5rem" }}>
-            Edit Listing Details
-          </DialogTitle>
+          <DialogTitle>Edit Listing Details</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
