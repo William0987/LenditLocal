@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  seedListings,
   getAllListings,
   getAllListingsByDistrict,
   getAllListingsByUserId,
@@ -18,7 +17,6 @@ const checkValid = require("../middleware/checkValid");
 const router = express.Router();
 const { auth } = require("../middleware/auth");
 
-router.get("/listings/seed", seedListings);
 router.get("/listings", getAllListings);
 router.post("/listings/district", getAllListingsByDistrict);
 router.post("/listings/userId", getAllListingsByUserId);

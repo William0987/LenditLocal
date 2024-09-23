@@ -9,7 +9,7 @@ const secretAccessKey = process.env.SECRET_ACCESS_KEY;
 
 const sharp = require("sharp"); 
 const AuthModel = require("../models/Auth");
-const ListingModel = require("../models/Listings");
+const ListingModel = require("../models/Listings2");
 
 const s3 = new S3Client({
   credentials: {
@@ -22,7 +22,6 @@ const s3 = new S3Client({
 const uploadAvatar = async (req, res) => {
   try {
     const user_id = req.body.user_id;
-
     const buffer = await sharp(req.file.buffer)
       .resize(300, 300, {
         fit: "contain",

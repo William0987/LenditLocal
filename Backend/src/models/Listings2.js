@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 const ListingSchema = new mongoose.Schema(
   {
     created_at: { type: Date, default: Date.now },

@@ -7,10 +7,8 @@ const LocationSchema = new mongoose.Schema(
       required: true,
     },
     postal_code: {
-      type: Number,
+      type: String,
       required: true,
-      minLength: 6,
-      maxLength: 6,
     },
     latitude: { type: Number, required: false, default: 0 },
 
@@ -41,7 +39,7 @@ const AuthSchema = new mongoose.Schema(
       required: false,
       // default: "",
       minLength: 8,
-      maxLength: 8,
+      maxLength: 12,
     },
     help_count: { type: Number, required: false, default: 0 },
     rating: { type: Number, required: false, default: 0 },

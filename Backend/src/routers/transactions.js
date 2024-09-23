@@ -1,6 +1,5 @@
 const express = require("express");
 const {
-  seedTransactions,
   getAllTransactions,
   getTransactionById,
   createTransaction,
@@ -18,7 +17,6 @@ const checkValid = require("../middleware/checkValid");
 const router = express.Router();
 const { auth } = require("../middleware/auth");
 
-router.get("/transactions/seed", seedTransactions);
 router.get("/transactions", auth, getAllTransactions);
 router.get(
   "/transactions/:id",

@@ -2,46 +2,6 @@ const { v4: uuidv4 } = require("uuid");
 
 const TransactionModel = require("../models/Transactions");
 
-const seedTransactions = async (req, res) => {
-  try {
-    await TransactionModel.deleteMany();
-
-    await TransactionModel.create([
-      {
-        _id: "64e2c98f2097aba61989d93c",
-        listing_id: "64d0f3f75676c304033d8c89",
-        owner_id: "64e2c2fcdce21246ef81b8ee",
-        requester_id: "64e2c2ffdce21246ef81b8f4",
-        status: "pending_owner_response",
-      },
-      {
-        _id: "64e2c98f2097aba61989d93d",
-        listing_id: "64d0f3f75676c304033d8c89",
-        owner_id: "64e2c2fcdce21246ef81b8ed",
-        requester_id: "64e2c2fcdce21246ef81b8ee",
-        status: "pending_owner_response",
-      },
-      {
-        _id: "64e2c98f2097aba61989d93e",
-        listing_id: "64d0f3f75676c304033d8c89",
-        owner_id: "64e2c2fcdce21246ef81b8ed",
-        requester_id: "64e2c2fcdce21246ef81b8ee",
-        status: "accepted",
-      },
-      {
-        _id: "64e2c98f2097aba61989d93f",
-        listing_id: "64d0f3f75676c304033d8c90",
-        owner_id: "64e2c2fcdce21246ef81b8ee",
-        requester_id: "64e2c2fcdce21246ef81b8ed",
-      },
-    ]);
-    res.json({ status: "ok", msg: "Seeding transactions successful" });
-  } catch (error) {
-    console.log(error.message);
-    res.status(400).json({ status: "error", msg: "Seeding error" });
-  }
-};
-
 const getAllTransactions = async (req, res) => {
   try {
     const allTransactions = await TransactionModel.find().populate([
@@ -167,7 +127,6 @@ const deleteTransaction = async (req, res) => {
 };
 
 module.exports = {
-  seedTransactions,
   getAllTransactions,
   getTransactionById,
   getTransactionsByUserId,
