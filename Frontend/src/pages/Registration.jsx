@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import Btn from "../components/Btn";
 import { useNavigate } from "react-router-dom";
-import DistrictEnums from "../enums/districtEnums";
+import DistrictEnums from "../enums/DistrictEnums";
 
 const Registration = (props) => {
   const fetchData = useFetch();
