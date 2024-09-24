@@ -4,7 +4,7 @@ Welcome to the LenditLocal App, where users can give away or lend their items or
 
 # Getting Started:
 
-[Click to view the LenditLocal App!]()
+[Click to view the LenditLocal App!](https://lenditlocal.onrender.com)
 
 # Screenshots:
 
