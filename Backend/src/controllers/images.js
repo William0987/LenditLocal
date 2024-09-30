@@ -43,7 +43,7 @@ const uploadAvatar = async (req, res) => {
     await user.save();
     console.log("User image uploaded successfully");
     res.send({
-      message: "User image uploaded successfully",
+      message: "Image uploaded successfully",
       url: user.image_url,
     });
   } catch (error) {
@@ -82,7 +82,7 @@ const uploadListingImage = async (req, res) => {
     }
 
     res.send({
-      message: "Listing image uploaded successfully",
+      message: "Image uploaded successfully",
       url: image_url,
     });
   } catch (error) {
